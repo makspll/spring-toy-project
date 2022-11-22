@@ -1,0 +1,27 @@
+spring:
+    account-datasource:
+        jdbc-url: jdbc:postgresql://${ACCOUNT_DB:localhost:8001}/user
+        username: ${DB_USER:user}
+        password: ${DB_PASS:password} 
+        driver-class-name: org.postgresql.Driver
+    task-datasource:
+        jdbc-url: jdbc:postgresql://${TASK_DB:localhost:8002}/user
+        username: ${DB_USER:user}
+        password: ${DB_PASS:password} 
+        driver-class-name: org.postgresql.Driver  
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+application:
+    mode: ${MODE}
+    jwt:
+        secret: ${SECRET:secret}
+    worker:
+        delay:
+            no_new_task: 10
+
+logging:
+    level:
+        com:
+            tasks:
+                tasks: TRACE
+        root: ERROR    

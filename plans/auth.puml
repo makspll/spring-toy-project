@@ -1,0 +1,46 @@
+@startuml auth
+
+actor User
+entity Spring
+database Accounts
+autoactivate on 
+
+== Register ==
+
+
+
+alt new user created
+    User -> Spring : /register
+    Spring -> Accounts : get user 
+    return 
+    Spring -> Accounts : create user + salt
+    return 
+    return 200 - JWT TOKEN
+
+else user exists
+    User -> Spring : /register
+    Spring -> Accounts : get user
+    return
+    return 403 - user exists
+
+else validation failed 
+    User -> Spring : /register
+    return 400 - form errors
+end
+
+== Login ==
+
+
+alt logged in
+
+    User -> Spring : /login 
+    return 200 - JWT TOKEN
+    
+else invalid user 
+
+    User -> Spring : /login
+    return 403 - forbidden
+
+end
+
+@enduml

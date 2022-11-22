@@ -1,0 +1,48 @@
+@startuml tasks
+
+actor User
+entity Scheduler
+database Accounts
+database Tasks
+entity Worker
+entity VM
+
+autoactivate on 
+
+== CRUD Task interface == 
+
+User -> Scheduler : POST/PUT/DELETE/GET /tasks
+
+par 
+    Scheduler -> Accounts : Get permissions
+    return permissions
+
+    Scheduler -> Tasks : Read tasks 
+    return 
+end
+
+opt
+    Scheduler -> Tasks : Create/Update/Delete tasks
+    return  
+end
+
+return tasks or error
+
+
+== Task Execution ==
+
+...Near task execution time...
+Worker -> Tasks : Poll tasks
+return Tasks due
+
+Worker -> VM : Execute tasks
+return Task status
+
+Worker -> Tasks : Set task status
+return 
+
+@enduml
+
+
+
+

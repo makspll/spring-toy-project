@@ -1,0 +1,44 @@
+@startuml architecture
+
+
+actor postman [
+    User
+]
+
+
+node scheduler [
+    Spring Scheduler
+    --
+    Register acounts + tasks
+]
+
+node worker [
+    Spring Worker
+    --
+    Poll tasks and update status
+]
+
+file fs [
+    Local Filesystem
+    --
+    Tasks operate here
+]
+
+package data <<database>> {
+    database task_db [
+        Task DB
+    ]
+
+    database account_db [
+        Account DB
+    ]
+}
+
+
+postman --> scheduler : REST API
+scheduler --> task_db : SQL
+scheduler --> account_db : SQL
+worker --> task_db : SQL
+worker --> fs : OS
+
+@enduml

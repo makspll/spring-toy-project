@@ -1,0 +1,23 @@
+@startuml tables
+
+entity accounts {
+    *id : integer <<generated>>
+    --
+    *username : varchar (256) 
+    *password : bytea, SHA256 
+    *salt: varchar (8)
+}
+
+entity tasks {
+    *id : integer <<generated>>
+    --
+    *account_id : integer
+    *script : text
+    *execution_time : datetime 
+    *permissions : smallint, flags
+}
+
+tasks }|--|| accounts
+
+
+@enduml

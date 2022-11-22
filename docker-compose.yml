@@ -1,0 +1,43 @@
+version: '3'
+services:
+  scheduler: 
+    build: ./scheduler
+    environment:
+      - MODE=scheduler
+      - ACCOUNT_DB
+      - DB_USER
+      - DB_PASS 
+      - TASK_DB 
+      - SECRET 
+    ports:
+      - "80:8080"
+  worker: 
+    build: ./scheduler
+    environment:
+      - MODE=worker
+      - ACCOUNT_DB
+      - DB_USER
+      - DB_PASS 
+      - TASK_DB 
+      - SECRET 
+  account_db:
+    image: postgres
+    environment: 
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+    ports:
+      - "8001:5432"
+    volumes:
+      - "account_db_data:/var/lib/postgresql/data"
+  task_db:
+    image: postgres
+    environment: 
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+    ports:
+      - "8002:5432"
+    volumes:
+      - "task_db_data:/var/lib/postgresql/data"
+volumes:
+  account_db_data:
+  task_db_data:
